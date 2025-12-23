@@ -1,0 +1,52 @@
+@model IEnumerable<Honeybee.Models.Customer>
+
+@{
+    ViewData["Title"] = "Customers";
+}
+
+<div class="page-header">
+    <h1><i class="fas fa-users"></i> Customers</h1>
+</div>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="fas fa-user-plus"></i> Create New Customer
+    </a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>City</th>
+            <th>Created Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.FirstName @item.LastName</td>
+                <td>@item.Email</td>
+                <td>@item.Phone</td>
+                <td>@item.City</td>
+                <td>@item.CreatedDate.ToString("MM/dd/yyyy")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-eye"></i> Details
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">
+                        <i class="fas fa-trash"></i> Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

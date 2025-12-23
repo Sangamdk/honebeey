@@ -1,0 +1,73 @@
+@model IEnumerable<Honeybee.Models.Product>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="page-header">
+    <h1><i class="fas fa-bee"></i> Welcome to Honeybee</h1>
+    <p class="lead">Your one-stop shop for quality products</p>
+</div>
+
+<div class="row">
+    <div class="col-12 mb-4">
+        <h2>Featured Products</h2>
+    </div>
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var product in Model)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="product-card">
+                    @if (!string.IsNullOrEmpty(product.ImageUrl))
+                    {
+                        <img src="@product.ImageUrl" alt="@product.Name" class="product-image" />
+                    }
+                    else
+                    {
+                        <div class="product-image d-flex align-items-center justify-content-center">
+                            <i class="fas fa-image fa-3x text-muted"></i>
+                        </div>
+                    }
+                    <div class="p-3">
+                        <h5>@product.Name</h5>
+                        <p class="text-muted small">@(product.Description?.Length > 50 ? product.Description.Substring(0, 50) + "..." : product.Description)</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="product-price">$@product.Price.ToString("F2")</span>
+                            @if (product.StockQuantity > 0)
+                            {
+                                <button class="btn btn-primary btn-sm" onclick="addToCart(@product.Id)">
+                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                </button>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Out of Stock</span>
+                            }
+                        </div>
+                        <div class="mt-2">
+                            <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-outline-secondary btn-sm w-100">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-12">
+            <div class="alert alert-info">
+                <p>No products available at the moment. <a asp-controller="Products" asp-action="Create">Add a product</a> to get started.</p>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        // Cart functionality is in site.js
+    </script>
+}
+

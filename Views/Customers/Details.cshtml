@@ -1,0 +1,53 @@
+@model Honeybee.Models.Customer
+
+@{
+    ViewData["Title"] = "Customer Details";
+}
+
+<div class="page-header">
+    <h1><i class="fas fa-user"></i> Customer Details</h1>
+</div>
+
+<div class="form-container">
+    <dl class="row">
+        <dt class="col-sm-3">First Name:</dt>
+        <dd class="col-sm-9">@Model.FirstName</dd>
+
+        <dt class="col-sm-3">Last Name:</dt>
+        <dd class="col-sm-9">@Model.LastName</dd>
+
+        <dt class="col-sm-3">Email:</dt>
+        <dd class="col-sm-9">@Model.Email</dd>
+
+        <dt class="col-sm-3">Phone:</dt>
+        <dd class="col-sm-9">@Model.Phone</dd>
+
+        <dt class="col-sm-3">Address:</dt>
+        <dd class="col-sm-9">@(Model.Address ?? "N/A")</dd>
+
+        <dt class="col-sm-3">City:</dt>
+        <dd class="col-sm-9">@(Model.City ?? "N/A")</dd>
+
+        <dt class="col-sm-3">State:</dt>
+        <dd class="col-sm-9">@(Model.State ?? "N/A")</dd>
+
+        <dt class="col-sm-3">Zip Code:</dt>
+        <dd class="col-sm-9">@(Model.ZipCode ?? "N/A")</dd>
+
+        <dt class="col-sm-3">Created Date:</dt>
+        <dd class="col-sm-9">@Model.CreatedDate.ToString("MM/dd/yyyy")</dd>
+
+        <dt class="col-sm-3">Total Orders:</dt>
+        <dd class="col-sm-9">@Model.Orders.Count</dd>
+    </dl>
+
+    <div class="mt-4">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+            <i class="fas fa-edit"></i> Edit
+        </a>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Back to List
+        </a>
+    </div>
+</div>
+
