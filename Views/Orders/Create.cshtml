@@ -1,0 +1,89 @@
+@model Honeybee.Models.Order
+@{
+    ViewData["Title"] = "Create Order";
+    var cart = ViewBag.Cart as List<Honeybee.Models.CartItem>;
+    var customers = ViewBag.Customers as List<Honeybee.Models.Customer>;
+}
+
+<div class="page-header">
+    <h1><i class="fas fa-shopping-bag"></i> Create Order</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-container">
+            <h4>Order Items</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (cart != null)
+                    {
+                        @foreach (var item in cart)
+                        {
+                            <tr>
+                                <td>@item.ProductName</td>
+                                <td>@item.Quantity</td>
+                                <td>$@item.Price.ToString("F2")</td>
+                                <td>$@item.Subtotal.ToString("F2")</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="3" class="text-end">Total:</th>
+                        <th>$@(cart?.Sum(c => c.Subtotal).ToString("F2") ?? "0.00")</th>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="mb-3">
+                    <label asp-for="CustomerId" class="form-label">Customer</label>
+                    <select asp-for="CustomerId" class="form-control">
+                        <option value="">-- Select Customer --</option>
+                        @if (customers != null)
+                        {
+                            @foreach (var customer in customers)
+                            {
+                                <option value="@customer.Id" selected="@(ViewBag.SelectedCustomerId != null && ViewBag.SelectedCustomerId == customer.Id)">
+                                    @customer.FirstName @customer.LastName (@customer.Email)
+                                </option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="CustomerId" class="text-danger"></span>
+                    <small class="form-text text-muted">
+                        <a asp-controller="Customers" asp-action="Create" target="_blank">Create New Customer</a>
+                    </small>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="ShippingAddress" class="form-label">Shipping Address</label>
+                    <textarea asp-for="ShippingAddress" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="ShippingAddress" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check"></i> Create Order
+                    </button>
+                    <a asp-controller="Cart" asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Cart
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

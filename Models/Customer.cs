@@ -37,6 +37,9 @@ namespace Honeybee.Models
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
+        // Computed property
+        public string FullName => $"{FirstName} {LastName}";
+
         // Navigation properties
         public ICollection<Order> Orders { get; set; } = new List<Order>();
     }
